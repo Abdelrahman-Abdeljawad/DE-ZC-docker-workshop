@@ -1,0 +1,18 @@
+# base docker image that we are building from
+FROM python:3.13.11-slim
+
+# get uv (copy uv binary) from the official uv image
+# (multistage-build pattern)
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /bin/
+
+# set up image by installing prerequesites
+RUN pip install pandas pyarrow
+
+# set up working directory in the image
+WORKDIR /code
+
+# copy from host machine to the image
+COPY pipeline.py .
+
+# define what to do when the container runs
+ENTRYPOINT ["python", "pipeline.py"]
