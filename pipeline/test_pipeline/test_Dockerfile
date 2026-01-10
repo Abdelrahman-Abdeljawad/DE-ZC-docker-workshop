@@ -17,7 +17,7 @@ COPY .python-version pyproject.toml uv.lock ./
 RUN uv sync --locked
 
 # copy from host machine to the image
-COPY ingest_data.py .
+COPY pipeline.py .
 
 # define what to do when the container runs
-ENTRYPOINT ["python", "ingest_data.py"]
+ENTRYPOINT ["python", "pipeline.py"]
