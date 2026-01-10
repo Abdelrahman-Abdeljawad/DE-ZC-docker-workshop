@@ -5,18 +5,6 @@ import pandas as pd
 from tqdm.auto import tqdm
 from sqlalchemy import create_engine
 
-pg_user = "root"
-pg_pass = "root"
-pg_db = "ny_taxi"
-pg_host = "localhost"
-pg_port = 5432
-
-year = 2019
-month = 10
-
-chunksize = 100_000
-target_table = "yellow_taxi_data"
-
 dtype = {
     "VendorID": "Int64",
     "passenger_count": "Int64",
@@ -41,13 +29,11 @@ parse_dates = [
     "tpep_dropoff_datetime"
 ]
 
-engine= create_engine(f"postgresql://{pg_user}:{pg_pass}@{pg_host}:{pg_port}/{pg_db}")
-
-
-prefix = "https://github.com/DataTalksClub/nyc-tlc-data/releases/download/yellow"
-url = f'{prefix}/yellow_tripdata_{year}-{month:02d}.csv.gz'
-
-def run():
+def ingest_data(url: str,
+                engine,
+                target_table: str,
+                chunksize: int = 100_000
+                ) -> pd.DataFrame:
     df_iter = pd.read_csv(
         url,
         dtype=dtype,
@@ -57,6 +43,7 @@ def run():
     )
 
     created = False
+    counter=0
     for df_chunk in tqdm(df_iter):
         if not created:
             df_chunk.head(0).to_sql(name=target_table,
@@ -64,11 +51,36 @@ def run():
                                     if_exists="replace"
                                     )
             created = True
+            print(f"Table {target_table} Created")
 
+        counter+=1
+        print(f"Inserting chunk {counter}")
         df_chunk.to_sql(name=target_table,
                         con=engine,
                         if_exists="append"
                         )
+        print(f"{len(df_chunk)} rows inserted.")
+
+def main():
+    pg_user = "root"
+    pg_pass = "root"
+    pg_db = "ny_taxi"
+    pg_host = "localhost"
+    pg_port = 5432
+    year = 2019
+    month = 10
+    chunksize = 100_000
+    target_table = "yellow_taxi_data"
+
+    engine= create_engine(f"postgresql://{pg_user}:{pg_pass}@{pg_host}:{pg_port}/{pg_db}")
+    prefix = "https://github.com/DataTalksClub/nyc-tlc-data/releases/download/yellow"
+    url = f'{prefix}/yellow_tripdata_{year}-{month:02d}.csv.gz'
+
+    ingest_data(url,
+                engine=engine,
+                target_table=target_table,
+                chunksize=chunksize)
+
 
 if __name__ == "__main__":
-    run()
+    main()
