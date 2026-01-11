@@ -64,6 +64,8 @@ def ingest_data(url: str,
         rows_inserted+=len(df_chunk)
         print(f"{rows_inserted} rows inserted.")
 
+# you can configure environment variable to pass values from docker "environment"
+# @click.option('--pg-host', envvar="pg_host", default='localhost', help='PostgreSQL Host')
 @click.command()
 @click.option('--pg-host', default='localhost', help='PostgreSQL Host')
 @click.option('--pg-user', default='root', help='PostgreSQL Username')

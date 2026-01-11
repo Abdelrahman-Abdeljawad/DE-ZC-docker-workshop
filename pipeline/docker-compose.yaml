@@ -12,6 +12,8 @@ services:
     volumes:
       - "ny_taxi_postges_data:/var/lib/postgresql"
 
+    networks:
+      - pg-network
 
   pgadmin:
     image: dpage/pgadmin4
@@ -22,8 +24,34 @@ services:
       - "8085:80"
     volumes:
       - "pgadmin_data:/var/lib/pgadmin"
+    networks:
+      - pg-network
+
+  ingest_data:
+    # image: taxi_ingest:v001
+    build: .
+    depends_on:
+      - pgdatabase
+    # those are not used unless you configure Click to take env vars
+    environment:
+      # - pg_host=pgdatabase
+      - pg_user=root
+      - pg_pass=root
+      - pg_port=5432
+      - pg_db=ny_taxi
+      - target_table=yelow_taxi_trips_2021_1
+      - year=2021
+      - month=1
+      - chunksize=100000
+    command: >
+      --pg-host pgdatabase
+    networks:
+      - pg-network
 
 # for presistance storage
 volumes:
   ny_taxi_postges_data:
   pgadmin_data:
+
+networks:
+  pg-network:
