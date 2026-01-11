@@ -3,7 +3,8 @@
 
 import pandas as pd
 from tqdm.auto import tqdm
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, text, inspect, select, func
+from sqlalchemy.exc import OperationalError, ProgrammingError
 import click
 
 dtype = {
@@ -86,6 +87,30 @@ def main(pg_host, pg_user, pg_pass, pg_db, pg_port, year, month, chunksize, targ
                 target_table=target_table,
                 chunksize=chunksize)
 
+def db_exists_and_have_data(dbname: str, tablename: str) -> bool:
+    url = f"postgresql+psycopg2://root:root@pgdatabase:5432/{dbname}"
+    try:
+        engine = create_engine(url, pool_pre_ping=True)
+        insp = inspect(engine)
+
+        # check table
+        if tablename not in insp.get_table_names(schema="public"):
+            return False
+
+        # check for record existance
+        with engine.connect() as conn:
+            row = conn.execute(
+                select(func.count()).select_from(text(f'"{tablename}"'))
+            ).one()
+            return row[0] > 0
+    except (OperationalError, ProgrammingError) as e:
+        # DB unreachable or auth error
+        print(f"Error: {e}")
+        return False
 
 if __name__ == "__main__":
-    main()
+    if db_exists_and_have_data("ny_taxi", "yellow_taxi_data"):
+        print("Table exists and has data.")
+    else:
+        print("Table missing or empty.")
+        main()
