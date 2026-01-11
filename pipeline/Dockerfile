@@ -20,4 +20,5 @@ RUN uv sync --locked
 COPY ingest_data.py .
 
 # define what to do when the container runs
-ENTRYPOINT ["python", "ingest_data.py"]
+# -u: run in unbuffered mode so you can see python prints and logs
+ENTRYPOINT ["python", "-u", "ingest_data.py"]
