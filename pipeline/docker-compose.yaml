@@ -32,7 +32,6 @@ services:
     build: .
     depends_on:
       - pgdatabase
-    # those are not used unless you configure Click to take env vars
     environment:
       # - pg_host=pgdatabase
       - pg_user=root
