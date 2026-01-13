@@ -9,7 +9,7 @@ The purpose of this folder is to provide the data that **Alexey** was working wi
 You can obtain this folder in one of the following ways:
 
 - Clone the folder using Git by following this tutorial:  
-  [Git Clone Tutorial]([https://github.com/Abdelrahman-Abdeljawad/data-engineering-zoomcamp-codes-hws/tree/main/module-01/sql](https://github.com/orgs/community/discussions/102639))
+  [Git Clone Tutorial](https://github.com/orgs/community/discussions/102639)
 
 - Or download it directly using this link:  
   [Download the Folder](https://downgit.github.io/#/home?url=https://github.com/Abdelrahman-Abdeljawad/data-engineering-zoomcamp-codes-hws/tree/main/module-01/sql)
