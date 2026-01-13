@@ -9,7 +9,7 @@ The purpose of this folder is to provide the data that **Alexey** was working wi
 You can obtain this folder in one of the following ways:
 
 - Clone the folder using Git by following this tutorial:  
-  [Git Clone Tutorial](https://github.com/Abdelrahman-Abdeljawad/data-engineering-zoomcamp-codes-hws/tree/main/module-01/sql)
+  [Git Clone Tutorial]([https://github.com/Abdelrahman-Abdeljawad/data-engineering-zoomcamp-codes-hws/tree/main/module-01/sql](https://github.com/orgs/community/discussions/102639))
 
 - Or download it directly using this link:  
   [Download the Folder](https://downgit.github.io/#/home?url=https://github.com/Abdelrahman-Abdeljawad/data-engineering-zoomcamp-codes-hws/tree/main/module-01/sql)
@@ -37,7 +37,7 @@ http://127.0.0.1:8085
 
 Alternatively, you can get the link from here:
 
-![pg-port](../pg-port.png)
+![pg-port](images/pg-port.png)
 
 ---
 
@@ -54,6 +54,6 @@ After completing these steps, your **database will be ready and available in pgA
 
 ## Result
 
-![result](pgadmin.png)
+![result](images/pgadmin.png)
 
 You now have the same database setup used during the **SQL Refresher lecture**, ready for practice and experimentation.
