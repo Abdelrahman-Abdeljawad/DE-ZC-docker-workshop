@@ -37,7 +37,7 @@ http://127.0.0.1:8085
 
 Alternatively, you can get the link from here:
 
-![pgAdmin Login Page](IMAGE_HERE)
+![pg-port](../pg-port.png)
 
 ---
 
@@ -54,6 +54,6 @@ After completing these steps, your **database will be ready and available in pgA
 
 ## Result
 
-![result](IMAGE_HERE)
+![result](pgadmin.png)
 
 You now have the same database setup used during the **SQL Refresher lecture**, ready for practice and experimentation.
