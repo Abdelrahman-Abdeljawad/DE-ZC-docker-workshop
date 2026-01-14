@@ -4,6 +4,14 @@ The purpose of this folder is to provide the data that **Alexey** was working wi
 
 ---
 
+## Prerequisites
+
+Before continuing, make sure you already have:
+1. The **ingestion scripts** from the previous lecture.
+2. The **`Dockerfile`** (and any related build files) used to create the `taxi_ingest:v001` image.
+
+---
+
 ## Getting the Data
 
 You can obtain this folder in one of the following ways:
@@ -35,7 +43,7 @@ Once the containers are running, open your browser and go to:
 http://127.0.0.1:8085
 ```
 
-Alternatively, you can get the link from here:
+Alternatively, you can get the address from here:
 
 ![pg-port](images/pg-port.png)
 
@@ -49,6 +57,31 @@ Inside pgAdmin:
 2. Configure it **exactly as shown in Lecture One**
 
 After completing these steps, your **database will be ready and available in pgAdmin**.
+
+---
+
+## Load the Taxi Data
+
+Don’t forget to run the ingestion script from the previous lecture:
+
+(make sure you are in the same directory as the previous Dockerfile)
+
+```bash
+docker run -it --rm \
+  --network=sql_pg-net \
+  taxi_ingest:v001 \
+  --pg-host=pgdatabase \
+  --pg-user=root \
+  --pg-pass=root \
+  --pg-port=5432 \
+  --pg-db=ny_taxi \
+  --target-table=yellow_taxi_trips_2021_1 \
+  --year=2021 \
+  --month=1 \
+  --chunksize=100000
+```
+
+Double-check that the database name, table name, and Docker network match your compose file.
 
 ---
 
