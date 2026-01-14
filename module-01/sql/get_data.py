@@ -9,9 +9,9 @@ import click
 @click.option('--pg-user', envvar="PG_USER", default="root")
 @click.option('--pg-pass', envvar="PG_PASS", default="root")
 @click.option('--pg-host', envvar="PG_HOST", default="pgdatabase")
-@click.option('--pg-db', envvar="PG_DB", default="taxi_zone_lookup")
+@click.option('--pg-db', envvar="PG_DB", default="ny_taxi")
 @click.option('--pg-port', envvar="PG_PORT", default=5432)
-@click.option('--target-table', envvar="TARGET_TABLE", default="taxi_zone")
+@click.option('--target-table', envvar="TARGET_TABLE", default="zones")
 def run(pg_user, pg_pass, pg_host, pg_db, pg_port, target_table):
     url = "https://d37ci6vzurychx.cloudfront.net/misc/taxi_zone_lookup.csv"
     df_zones = pd.read_csv(url)

@@ -5,22 +5,24 @@ services:
       - POSTGRES_USER=root
       - POSTGRES_PASSWORD=root
       - POSTGRES_HOST=pgdatabase
-      - POSTGRES_DB=taxi_zone_lookup
-    # volumes:
-    #   - "taxi_zone_lookup_data:/var/lib/postgresql"
+      - POSTGRES_DB=ny_taxi
+    volumes:
+      - "ny_taxi_data:/var/lib/postgresql"
     ports:
       - "5432:5432"
-
+    networks:
+      - pg-net
   pgadmin:
     image: dpage/pgadmin4
     environment:
       - PGADMIN_DEFAULT_EMAIL=admin@admin.com
       - PGADMIN_DEFAULT_PASSWORD=root
-    # volumes:
-    #   - "pgadmin_data:/var/lib/pgadmin"
+    volumes:
+      - "pgadmin_data:/var/lib/pgadmin"
     ports:
       - "8085:80"
-
+    networks:
+      - pg-net      
   get_data:
     depends_on:
       - pgdatabase
@@ -30,9 +32,13 @@ services:
       - PG_PASS=root
       - PG_HOST=pgdatabase
       - PG_PORT=5432
-      - TARGET_TABLE=taxi_zone
+      - TARGET_TABLE=zones
+    networks:
+      - pg-net
 
-# uncomment below as well as above lines for persistent storage
-# volumes:
-#   taxi_zone_lookup_data:
-#   pgadmin_data:
+volumes:
+  ny_taxi_data:
+  pgadmin_data:
+
+networks:
+  pg-net:
