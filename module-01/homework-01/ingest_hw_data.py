@@ -13,13 +13,13 @@ gtt_df = pd.read_parquet(gtt_url)
 zones_df= pd.read_csv(zones_url)
 
 @click.command()
-@click.option('--pg-user', default="root", help="postgres user")
-@click.option('--pg-pass', default="root")
-@click.option('--pg-host', default="localhost")
-@click.option('--pg-port', default="5432")
-@click.option('--pg-db', default="ny_taxi_hw")
-def ingest(PG_USER, PG_PASS, PG_HOST, PG_PORT, PG_DB):
-    engine = create_engine(f'postgresql://{PG_USER}:{PG_PASS}@{PG_HOST}:{PG_PORT}/{PG_DB}')
+@click.option('--pg-user', envvar="PG_USER", default="root", help="postgres user")
+@click.option('--pg-pass', envvar="PG_PASS", default="root")
+@click.option('--pg-host', envvar="PG_HOST", default="localhost")
+@click.option('--pg-port', envvar="PG_PORT", default=5432)
+@click.option('--pg-db', envvar="PG_DB", default="ny_taxi_hw")
+def ingest(pg_user, pg_pass, pg_host, pg_port, pg_db):
+    engine = create_engine(f'postgresql://{pg_user}:{pg_pass}@{pg_host}:{pg_port}/{pg_db}')
 
     print("creating tables..")
     gtt_df.head(0).to_sql(
@@ -43,12 +43,14 @@ def ingest(PG_USER, PG_PASS, PG_HOST, PG_PORT, PG_DB):
         if_exists="append"
     )
     print("done ingesting data for green taxi trips table")
-    zones.to_sql(
+    print(f"{len(gtt_df)} rows inserted")
+    zones_df.to_sql(
         name="zones",
         con=engine,
         if_exists="append"
     )
     print("done ingesting data for zones table")
+    print(f"{len(zones_df)} rows inserted")
 
 if __name__ == '__main__':
     ingest()
