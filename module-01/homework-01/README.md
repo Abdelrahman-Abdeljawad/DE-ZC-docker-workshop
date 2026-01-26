@@ -182,3 +182,10 @@ LIMIT 1;
 ```
 Yorkville West
 ```
+
+## Question 7: Terraform Workflow
+
+**Answer:**  
+```
+terraform init, terraform apply -auto-approve, terraform destroy
+```
