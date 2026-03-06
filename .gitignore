@@ -1,5 +1,8 @@
 *.parquet
 
+.env
+.env_encoded
+
 keys/
 
 *.json
